@@ -18,7 +18,7 @@ while true; do
   echo "8) 🔑 Import Wallet (id.json)"
   echo "9) 🧾 Check Wallet Address"
   echo "10) ⛏️  Install Bitz CLI"
-  echo "11) 🚀 Start Mining (in background screen)"
+  echo "11) 🚀 Start Mining (in background screen with auto-restart)"
   echo "12) 🖥️  Attach to Bitz screen"
   echo "13) ♻️  Restart Miner"
   echo "14) 💰 Bitz Claim"
@@ -82,9 +82,9 @@ while true; do
       cargo install bitz
       ;;
     11)
-      echo "\n🚀 Starting Miner in screen session..."
-      screen -S bitz -dm bash -c 'bitz collect --cores 4'
-      echo "✅ Miner started in background. Use option 12 to view."
+      echo "\n🚀 Starting Miner in screen session with auto-restart..."
+      screen -S bitz -dm bash -c 'while true; do bitz collect --cores 4; echo "⛏️ Miner crashed. Restarting in 5s..."; sleep 5; done'
+      echo "✅ Miner started in background with auto-restart. Use option 12 to view."
       ;;
     12)
       echo "\n🖥️  Attaching to Bitz screen..."
@@ -94,8 +94,8 @@ while true; do
       echo "\n♻️  Restarting Bitz miner..."
       screen -S bitz -X quit
       sleep 1
-      screen -S bitz -dm bash -c 'bitz collect --cores 4'
-      echo "🔁 Miner restarted in new screen session."
+      screen -S bitz -dm bash -c 'while true; do bitz collect --cores 4; echo "⛏️ Miner crashed. Restarting in 5s..."; sleep 5; done'
+      echo "🔁 Miner restarted in new screen session with auto-restart."
       ;;
     14)
       echo "\n💰 Claiming Bitz tokens..."
